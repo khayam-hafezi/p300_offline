@@ -73,6 +73,7 @@ def foo():
 class MainWindow(QMainWindow):
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
+        self.window = []
         self.setWindowTitle("p300 App")
         layout = QGridLayout()
 
@@ -123,6 +124,11 @@ class MainWindow(QMainWindow):
         # to take up all the space in the window by default.
         self.setCentralWidget(widget)
 
+    def closeEvent(self, event):
+        for i in range(0, len(self.window)):
+            self.window[i].close()
+
+
     @pyqtSlot()
     def startShow(self):
         screen = qApp.primaryScreen()
@@ -146,7 +152,6 @@ class MainWindow(QMainWindow):
                     [(w - wOfClickWgt), (h - hOfClickWgt)]]
         sizeOfButton = [[wOfWgtTop, hOfWgtTop], [wOfWgtLeft, hOfWgtLeft],
                         [wOfWgtRight, hOfWgtRight], [wOfClickWgt, hOfClickWgt], [wOfClickWgt, hOfClickWgt]]
-        self.window = []
         freqList = [12, 10, 7.5, 6.67, 8.57]
         for i in range(0, 5):
             pos = position[i]
@@ -176,10 +181,10 @@ def print_hi(name):
 if __name__ == '__main__':
     print_hi('PyCharm')
     app = QApplication([])
-    # theme = "themes/darkblue.css"
-    # style = open(theme, 'r')
-    # style = style.read()
-    # qApp.setStyleSheet(style)
+    theme = "themes/darkblue.css"
+    style = open(theme, 'r')
+    style = style.read()
+    qApp.setStyleSheet(style)
     main_window = MainWindow()
     main_window.show()
     thread = Thread(target=foo)
