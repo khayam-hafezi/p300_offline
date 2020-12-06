@@ -13,41 +13,169 @@ import socket
 import pyautogui
 import struct
 from threading import Thread
+import enum
 
 HOST = '127.0.0.1'  # Standard loopback interface address (localhost)
-PORT = 65432        # Port to listen on (non-privileged ports are > 1023)
-
+PORT = 65432  # Port to listen on (non-privileged ports are > 1023)
 threadList = []
 
 
+# creating enumerations using class
+class PosShow(enum.Enum):
+    UP = 1
+    DOWN = 2
+    LEFT = 3
+    RIGHT = 4
+
 
 class BlinkButton(QWidget):
-    def __init__(self, rect_w, freq):
+    def __init__(self, rect_w, posOfSign, signImg, sourceImg):
         super(BlinkButton, self).__init__()
-        self.timer = QTimer(self)
-        self.white = "white"
-        self.black = "black"
-        self.currentColor = self.white
-        self.styleSheet = "background-color: {}"
-        self.setGeometry(rect_w)
-        self.freq = freq
+        if posOfSign == PosShow.UP:
+            layout = QVBoxLayout()
+            layout.setContentsMargins(QMargins(0,0,0,0))
+            layout.setSpacing(0)
+            widgetSign = QLabel()
+            widgetImg = QLabel()
+            layout.addWidget(widgetSign)
+            layout.addWidget(widgetImg)
+            widgetSign.setPixmap(QPixmap(signImg))
+            widgetImg.setPixmap(QPixmap(sourceImg))
+            widgetSign.setScaledContents(True)
+            widgetImg.setScaledContents(True)
+            widgetSign.setFixedWidth(100)
+            widgetSign.setFixedHeight(100)
+            widgetSign.setMaximumSize(100,100)
 
-    def start_show(self):
-        self.currentColor = self.white
-        self.setStyleSheet(self.styleSheet.format(self.currentColor))
-        self.show()
-        self.timer.timeout.connect(self.blink)
-        print(round((1.0/self.freq)*1000))
-        self.timer.start(round((1.0/self.freq)*1000))
+            widgetImg.setFixedWidth(100)
+            widgetImg.setFixedHeight(100)
+            widgetImg.setMaximumSize(100,100)
+            self.setLayout(layout)
+            widgetImg.setStyleSheet("border: 0px;")
+            widgetSign.setStyleSheet("border: 0px;")
+            widgetImg.setContentsMargins(0, 0, 0, 0)
+            widgetSign.setContentsMargins(0, 0, 0, 0)
+            widgetImg.setFrameShape(QFrame.NoFrame)
+            widgetSign.setFrameShape(QFrame.NoFrame)
+            widgetImg.setLineWidth(1)
+            widgetSign.setLineWidth(1)
+            self.setGeometry(rect_w)
 
-    @pyqtSlot()
-    def blink(self):
-        if self.currentColor == self.white:
-            self.currentColor = self.black
-            self.setStyleSheet(self.styleSheet.format(self.currentColor))
-        else:
-            self.currentColor = self.white
-            self.setStyleSheet(self.styleSheet.format(self.currentColor))
+        elif posOfSign == PosShow.DOWN:
+            layout = QVBoxLayout()
+            layout.setContentsMargins(QMargins(0, 0, 0, 0))
+            layout.setSpacing(0)
+            widgetSign = QLabel()
+            widgetImg = QLabel()
+            layout.addWidget(widgetImg)
+            layout.addWidget(widgetSign)
+            widgetSign.setPixmap(QPixmap(signImg))
+            widgetImg.setPixmap(QPixmap(sourceImg))
+            widgetSign.setScaledContents(True)
+            widgetImg.setScaledContents(True)
+            widgetSign.setFixedWidth(100)
+            widgetSign.setFixedHeight(100)
+            widgetSign.setMaximumSize(100, 100)
+
+            widgetImg.setFixedWidth(100)
+            widgetImg.setFixedHeight(100)
+            widgetImg.setMaximumSize(100, 100)
+            self.setLayout(layout)
+            widgetImg.setStyleSheet("border: 0px;")
+            widgetSign.setStyleSheet("border: 0px;")
+            widgetImg.setContentsMargins(0, 0, 0, 0)
+            widgetSign.setContentsMargins(0, 0, 0, 0)
+            widgetImg.setFrameShape(QFrame.NoFrame)
+            widgetSign.setFrameShape(QFrame.NoFrame)
+            widgetImg.setLineWidth(1)
+            widgetSign.setLineWidth(1)
+            self.setGeometry(rect_w)
+
+        elif posOfSign == PosShow.RIGHT:
+            layout = QHBoxLayout()
+            layout.setContentsMargins(QMargins(0, 0, 0, 0))
+            layout.setSpacing(0)
+            widgetSign = QLabel()
+            widgetImg = QLabel()
+            layout.addWidget(widgetImg)
+            layout.addWidget(widgetSign)
+            widgetSign.setPixmap(QPixmap(signImg))
+            widgetImg.setPixmap(QPixmap(sourceImg))
+            widgetSign.setScaledContents(True)
+            widgetImg.setScaledContents(True)
+            widgetSign.setFixedWidth(100)
+            widgetSign.setFixedHeight(100)
+            widgetSign.setMaximumSize(100, 100)
+
+            widgetImg.setFixedWidth(100)
+            widgetImg.setFixedHeight(100)
+            widgetImg.setMaximumSize(100, 100)
+            self.setLayout(layout)
+            widgetImg.setStyleSheet("border: 0px;")
+            widgetSign.setStyleSheet("border: 0px;")
+            widgetImg.setContentsMargins(0, 0, 0, 0)
+            widgetSign.setContentsMargins(0, 0, 0, 0)
+            widgetImg.setFrameShape(QFrame.NoFrame)
+            widgetSign.setFrameShape(QFrame.NoFrame)
+            widgetImg.setLineWidth(1)
+            widgetSign.setLineWidth(1)
+            self.setGeometry(rect_w)
+
+        elif posOfSign == PosShow.LEFT:
+            layout = QHBoxLayout()
+            layout.setContentsMargins(QMargins(0, 0, 0, 0))
+            layout.setSpacing(0)
+            widgetSign = QLabel()
+            widgetImg = QLabel()
+            layout.addWidget(widgetSign)
+            layout.addWidget(widgetImg)
+            widgetSign.setPixmap(QPixmap(signImg))
+            widgetImg.setPixmap(QPixmap(sourceImg))
+            widgetSign.setScaledContents(True)
+            widgetImg.setScaledContents(True)
+            widgetSign.setFixedWidth(100)
+            widgetSign.setFixedHeight(100)
+            widgetSign.setMaximumSize(100, 100)
+
+            widgetImg.setFixedWidth(100)
+            widgetImg.setFixedHeight(100)
+            widgetImg.setMaximumSize(100, 100)
+            self.setLayout(layout)
+            widgetImg.setStyleSheet("border: 0px;")
+            widgetSign.setStyleSheet("border: 0px;")
+            widgetImg.setContentsMargins(0, 0, 0, 0)
+            widgetSign.setContentsMargins(0, 0, 0, 0)
+            widgetImg.setFrameShape(QFrame.NoFrame)
+            widgetSign.setFrameShape(QFrame.NoFrame)
+            widgetImg.setLineWidth(1)
+            widgetSign.setLineWidth(1)
+            self.setGeometry(rect_w)
+
+
+        # self.timer = QTimer(self)
+        # self.white = "white"
+        # self.black = "black"
+        # self.currentColor = self.white
+        # self.styleSheet = "background-color: {}"
+        # self.setGeometry(rect_w)
+        # self.freq = freq
+
+    # def start_show(self):
+    #     self.currentColor = self.white
+    #     self.setStyleSheet(self.styleSheet.format(self.currentColor))
+    #     self.show()
+    #     self.timer.timeout.connect(self.blink)
+    #     print(round((1.0 / self.freq) * 1000))
+    #     self.timer.start(round((1.0 / self.freq) * 1000))
+
+    # @pyqtSlot()
+    # def blink(self):
+    #     if self.currentColor == self.white:
+    #         self.currentColor = self.black
+    #         self.setStyleSheet(self.styleSheet.format(self.currentColor))
+    #     else:
+    #         self.currentColor = self.white
+    #         self.setStyleSheet(self.styleSheet.format(self.currentColor))
 
 
 def foo():
@@ -65,7 +193,7 @@ def foo():
                 print("Got it")
                 x = struct.unpack('!i', data[:4])[0]
                 y = struct.unpack('!i', data[4:8])[0]
-                #pyautogui.moveRel(x, y)  # move mouse 10 pixels down
+                # pyautogui.moveRel(x, y)  # move mouse 10 pixels down
                 pyautogui.moveTo(x, y)  # move mouse 10 pixels down
 
 
@@ -103,7 +231,7 @@ class MainWindow(QMainWindow):
         layout.addWidget(numBlocksSpinBox, 3, 1);
 
         self.startButton = QPushButton("Start")
-        self.stopButton  = QPushButton("Stop")
+        self.stopButton = QPushButton("Stop")
         self.startButton.clicked.connect(self.startShow)
         hLayout = QHBoxLayout()
         # hLayout.addSpacerItem(QSpacerItem())
@@ -127,7 +255,9 @@ class MainWindow(QMainWindow):
     def closeEvent(self, event):
         for i in range(0, len(self.window)):
             self.window[i].close()
-
+        print("close all window")
+        event.accept()
+        qApp.quit()
 
     @pyqtSlot()
     def startShow(self):
@@ -139,25 +269,27 @@ class MainWindow(QMainWindow):
         print('Size: %d x %d' % (size.width(), size.height()))
         rect = screen.availableGeometry()
         print('Available: %d x %d' % (rect.width(), rect.height()))
-        wOfWgtTop = 250
-        hOfWgtTop = 100
-        wOfWgtLeft = 100
-        hOfWgtLeft = 250
-        wOfWgtRight = 100
-        hOfWgtRight = 250
-        wOfClickWgt = 130
-        hOfClickWgt = 130
-        position = [[(w - wOfWgtTop) / 2, 0], [0, (h - hOfWgtLeft) / 2],
-                    [(w - wOfWgtRight), (h - hOfWgtRight) / 2], [0, h - hOfClickWgt],
-                    [(w - wOfClickWgt), (h - hOfClickWgt)]]
-        sizeOfButton = [[wOfWgtTop, hOfWgtTop], [wOfWgtLeft, hOfWgtLeft],
-                        [wOfWgtRight, hOfWgtRight], [wOfClickWgt, hOfClickWgt], [wOfClickWgt, hOfClickWgt]]
+        wOfWgt = 100
+        hOfWgt = 100
+
+        position = [[0, (h - hOfWgt)], [0, (h - 2*hOfWgt) / 2], [0, 0],
+                    [(w - 2*wOfWgt) / 2, 0], [(w - wOfWgt), 0],
+                    [(w - wOfWgt), (h - 2*hOfWgt) / 2], [(w - 2*wOfWgt), (h - hOfWgt)]]
+
+        sizeOfButton = [[2*wOfWgt, hOfWgt], [wOfWgt, 2*hOfWgt], [wOfWgt, 2*hOfWgt],
+                        [2*wOfWgt, hOfWgt], [wOfWgt, 2*hOfWgt],
+                        [wOfWgt, 2*hOfWgt], [2*wOfWgt, hOfWgt]]
+
+        posShowList = [PosShow.RIGHT, PosShow.UP, PosShow.DOWN,
+                       PosShow.LEFT, PosShow.DOWN,
+                       PosShow.UP, PosShow.LEFT]
         freqList = [12, 10, 7.5, 6.67, 8.57]
-        for i in range(0, 5):
+        for i in range(0, 7):
+            print(i)
             pos = position[i]
             btnSize = sizeOfButton[i]
             rect = QRect(pos[0], pos[1], btnSize[0], btnSize[1])
-            self.window.append(BlinkButton(rect, freqList[i]))
+            self.window.append(BlinkButton(rect, posShowList[i], "image\\Right.png", "image\\13.png" ))
             # layout = QVBoxLayout()
             # layout.addWidget(QPushButton('Top'))
             # layout.addWidget(QPushButton('Bottom'))
@@ -166,10 +298,9 @@ class MainWindow(QMainWindow):
 
             # window[i].setGeometry(pos[0], pos[1], btnSize[0], btnSize[1])
             self.window[i].setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
-            self.window[i].start_show()
+            self.window[i].show()
+            # self.window[i].start_show()
             # foo(window[i], (i + 1) / 10, True)
-
-
 
 
 def print_hi(name):
@@ -190,6 +321,7 @@ if __name__ == '__main__':
     thread = Thread(target=foo)
     thread.start()
     app.exec_()
+    print("exit")
     thread.join()
     print("thread finished...exiting")
 
