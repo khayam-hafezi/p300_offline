@@ -283,13 +283,20 @@ class MainWindow(QMainWindow):
         posShowList = [PosShow.RIGHT, PosShow.UP, PosShow.DOWN,
                        PosShow.LEFT, PosShow.DOWN,
                        PosShow.UP, PosShow.LEFT]
+        signImgList = ["image\\DOWN.png", "image\\Left.png", "image\\lc.png",
+                       "image\\up.png", "image\\rc.png", "image\\Right.png",
+                       "image\\black.png"]
+        sourceImgList = ["image\\6.png", "image\\13.png", "image\\25.png",
+                         "image\\banafsh.png", "image\\cubeOn.png", "image\\LeftB.png",
+                         "image\\black.png"]
         freqList = [12, 10, 7.5, 6.67, 8.57]
         for i in range(0, 7):
             print(i)
             pos = position[i]
             btnSize = sizeOfButton[i]
             rect = QRect(pos[0], pos[1], btnSize[0], btnSize[1])
-            self.window.append(BlinkButton(rect, posShowList[i], "image\\Right.png", "image\\13.png" ))
+            self.window.append(BlinkButton(rect, posShowList[i],
+                                           signImgList[i], sourceImgList[i]))
             # layout = QVBoxLayout()
             # layout.addWidget(QPushButton('Top'))
             # layout.addWidget(QPushButton('Bottom'))
